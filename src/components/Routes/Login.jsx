@@ -8,7 +8,6 @@ export default function Login() {
     const [username , setUsername] = useState('');
     const [password , setPassword] = useState('');
     const [redirect , setRedirect] = useState(false);
-    const { userInfo , setUserinfo } = useContext(UserContext);
 
     async function parserLogin(e) {
       e.preventDefault();
@@ -23,10 +22,9 @@ export default function Login() {
 
         if(response.status === 200) {
             const responseData = await response.data;
-            setUserinfo(responseData);
-            console.log(responseData)
+            // console.log(responseData)
             setRedirect(true);
-            console.log(response);
+            // console.log(response);
           }
           else {
           alert('wrong credentials');

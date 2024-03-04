@@ -5,6 +5,7 @@
 body {
     box-sizing: border-box;
     margin: 0px;
+    overflow-x: hidden;
 }
 
 body::-webkit-scrollbar {
@@ -46,4 +47,120 @@ body::-webkit-scrollbar {
 .login-btn {
     width: 50%;
 
+}
+
+.create-post-outer-div {
+    margin-top: 30px;
+}
+
+.create-post-form > *{
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    margin: 10px 0px;
+    border: 2px solid transparent;
+}
+
+.react-quill {
+    border: 0px;
+}
+
+.article-bar {
+    margin: 10px 0px ;
+    padding: 5px;
+}
+
+.article-side {
+    width: 15%;
+}
+
+.article-textArea {
+    width: 65%;
+}
+
+.link-section {
+    width: 20%
+}
+
+.text-section {
+    width: 70%;
+}
+
+/* .footer {
+    height: 100vh;
+}
+
+.outer-div-footer {
+    height: 100%;
+} */
+
+
+.ql-container.ql-snow{ border: none !important;}
+
+.b-1 {
+    border: 2px solid #94a3b8;
+}
+
+.b-2:hover {
+    border: 2px solid #94a3b8;
+}
+
+.uab {
+    width: 47%;
+}
+
+.ua-container {
+    height: 100%;
+}
+
+@media only screen and (max-width: 640px) {
+    .image-cover {
+        background-color: gray;
+        position: relative;
+        left: 30px;
+        width: 100%;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px); /* Move the title up by 20px */
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0); /* Move the title back to its original position */
+    }
+  }
+  
+  .fade-in-title {
+    animation: fadeIn 1.5s ease-in-out; 
+  }
+  
+
+img {
+    object-fit: cover;
+}
+
+.text-block {
+    position: absolute;
+    top: 100vh;
+}
+
+
+
+/* .header-post-page {
+    background-image: ;
+} */
+
+.header-hr {
+    position: absolute;
+    z-index: 20;
+    background-color: white;
+}
+
+.postPage-container {
+    position: relative;
+    top: 0px;
+    height: 200vh;
 }

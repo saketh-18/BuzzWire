@@ -20,7 +20,7 @@ export default function verifyToken(req , res , next){
             return res.status(403).json({ message: 'Failed to authenticate token' });
         }
 
-            console.log(decoded);
+            // console.log(decoded);
             req.user = decoded;
             next();
     })

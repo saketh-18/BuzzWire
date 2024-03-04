@@ -1,10 +1,14 @@
-import React, { useContext, useEffect } from 'react';
-
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
 
  function Header() {
   const {userInfo , setUserinfo} = useContext(UserContext);
+  const [isloggedIn , setloggedIn] = useState(!!userInfo.username);
+
+  useEffect(() => {
+    setloggedIn(!!userInfo.username);
+  },  [userInfo]);
 
   
 
@@ -29,7 +33,18 @@ import { UserContext } from './UserContext';
     fetchData();
   }, []);
 
-  const username = userInfo?.username;
+  async function logout() {
+    try {
+    await fetch("http://localhost:5000/logout" , {
+      credentials : 'include', 
+      method :'GET'
+    })
+    setUserinfo({}); }
+    catch(e) {
+      console.log(e);
+    }
+  }
+
 
   return (
     <div>
@@ -37,12 +52,14 @@ import { UserContext } from './UserContext';
         <div className='logo text-3xl text-slate-500  font-bold ml-40'><Link to="/">BuzzWire</Link></div> 
         <div className='authenticate flex text-slate-0 mt-2'> 
         {
-          username && <Link to='/login' className='hidden sm:hover:font-medium sm:inline-block'>Hello {userInfo.username} !</Link>
-        }
-        { 
-          !username && <>
-          <Link to='/login' className='hidden sm:hover:font-medium sm:inline-block'>Login</Link>
-          <Link to='/register' className='hidden sm:hover:font-medium sm:inline-block'>Register</Link> 
+          isloggedIn ? 
+          <>
+          <Link to='/CreatePost' className='hidden sm:hover:font-medium sm:inline-block'>Write an Article</Link>
+          <Link to='/login' onClick={logout} className='hidden sm:hover:font-medium sm:inline-block'>logout</Link>
+          </> : 
+           <>
+          <Link to='/login' className='hidden sm:hover:font-medium sm:inline-block text-slate-400'>Login</Link>
+          <Link to='/register' className='hidden sm:hover:font-medium sm:inline-block text-slate-400'>Register</Link> 
           </>
           }
         </div>
