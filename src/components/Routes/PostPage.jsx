@@ -8,6 +8,7 @@ export default function PostPage() {
 
     const {id} = useParams();
     useEffect(() => {
+        window.scrollTo(0, 0);
         const getPost = async () => {
             try {
             const res = await fetch(`http://localhost:5000/post/${id}`); 
@@ -31,7 +32,7 @@ export default function PostPage() {
     <div className='postPage-container'>
     <div className='flex flex-col w-full header-hr'>
         <Header />
-        <div className="border-b-4 mt-4 border-black w-full"></div>
+        <div className="mt-4 w-full"></div>
     </div>
     <div className='flex flex-col relative'>
         <div className='self-center w-full ua-cover bg-fixed ua-image-block'>

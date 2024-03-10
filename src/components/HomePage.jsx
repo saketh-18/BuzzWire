@@ -14,11 +14,14 @@ export default function HomePage() {
         <hr className='mt-4'/>
         <Navbar className='mb-4'/>
         <Banner />
+        <hr className='h-2'/>
+        <UserArticles />
+        <hr className='h-2'/>
         <Post />
         <hr />
         <Article />
         <hr className='hr text-black forced-colors:to-black' />
-        <UserArticles />
+
         <Footer />
     </div>
   )

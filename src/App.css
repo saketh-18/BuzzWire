@@ -156,7 +156,8 @@ img {
 .header-hr {
     position: absolute;
     z-index: 20;
-    background-color: white;
+    background-color: transparent;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
 }
 
 .postPage-container {

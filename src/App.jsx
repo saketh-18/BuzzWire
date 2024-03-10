@@ -13,7 +13,7 @@ function App() {
   return (
     <>
     <UserContextProvider>
-      <BrowserRouter>
+      <BrowserRouter scrollRestoration="manual">
         <Routes>
           <Route path='/' element = {<HomePage />} />
           <Route path='/login' element = {<Login />} />

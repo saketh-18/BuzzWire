@@ -31,8 +31,7 @@ export default function UserArticles() {
   return (
     <div className='flex flex-col items-center'>
     <Link to={'/UaList'} className='text-2xl font-semibold underline ua-heading sm:self-start ml-7 mt-5 self-center' >Articles from users {'>'} </Link>
-    <div className='flex sm:flex-row flex-col w-full items-start mt-10 mb-10'>
-      
+    <div className='flex sm:flex-row flex-col w-full items-start mt-10 mb-5'>
       <div className='book-section flex flex-col sm:w-2/6 items-center w-6/7 ml-5'>
         <div className='image-cover w-full mt-5 mb-5 content-center bg-gray-400 sm:bg-white flex justify-center'>
           <img src='https://media.springernature.com/w440/springer-static/cover-hires/journal/41586/626/8001?as=webp' alt='book-cover' className='w-full' />

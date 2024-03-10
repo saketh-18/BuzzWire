@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function CreatePost() {
   //state variables...
+  const [submit , setSubmit] = useState(false)
   const naviagate = useNavigate();
   const [title , setTitle] = useState('');
   const [summary  , setSummary] = useState('');
@@ -39,6 +40,12 @@ export default function CreatePost() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if(submit){
+      naviagate("/");
+    }
+  } , [submit])
+
   async function sendPost(e) {
     e.preventDefault();
 
@@ -57,7 +64,7 @@ export default function CreatePost() {
       body : data
     });
 
-    naviagate("/");
+    setSubmit(true);
   };
 
 
