@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-dotenv.config();
+
 import cookieParser from 'cookie-parser';
 import express from 'express';
 
@@ -15,7 +14,7 @@ export default function verifyToken(req , res , next){
     }
 
     //else verify the token
-    jwt.verify(token , process.env.SECRET_KEY , (err , decoded) => {
+    jwt.verify(token , "SECRET" , (err , decoded) => {
         if(err){
             return res.status(403).json({ message: 'Failed to authenticate token' });
         }

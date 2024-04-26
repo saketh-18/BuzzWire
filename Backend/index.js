@@ -6,7 +6,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 import cors from "cors";
-import mongoose from "mongoose";
+import mongoose from "mongoose"; 
 import User from "./models/user.js";
 import verifyToken from "./verifyToken.js";
 import dotenv from 'dotenv';
@@ -23,7 +23,7 @@ const port = 5000;
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors({credentials : true , origin : "http://localhost:5173"}));
+app.use(cors({credentials : true , origin : "http://localhost:5174"}));
 
 mongoose.connect("mongodb://localhost:27017/BWusers").then(() => {
     console.log("connected to database");
