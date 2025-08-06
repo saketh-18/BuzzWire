@@ -81,5 +81,11 @@ Frontend Setup
 cd frontend
 npm install
 npm start
+```
 
-[Landing Page](public/images/readme) ![Landing Page](<public/images/readme/Screenshot 2025-08-06 121301.png>) ![Landing Page](<public/images/readme/Screenshot 2025-08-06 121312.png>) ![Landing Page](<public/images/readme/Screenshot 2025-08-06 121321.png>) ![Landing Page](<public/images/readme/Screenshot 2025-08-06 121330.png>)
+### images
+
+# ![Landing Page](assets/readme/landing1.png) 
+# ![Landing Page](assets/readme/landing2.png) 
+# ![Landing Page](assets/readme/landing3.png) 
+# ![Landing Page](assets/readme/landing4.png)
