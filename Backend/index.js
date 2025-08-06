@@ -14,6 +14,7 @@ import multer from "multer";
 const upload = multer({ dest: 'uploads/' });
 import Post from "./models/Post.js";
 import fs from 'fs';
+import axios from "axios";
 dotenv.config();
 
 const app = express();
@@ -23,7 +24,18 @@ const port = 5000;
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors({credentials : true , origin : "http://localhost:5174"}));
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+
+app.use(cors({
+  credentials: true,
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  }
+}));
 
 mongoose.connect("mongodb://localhost:27017/BWusers").then(() => {
     console.log("connected to database");
@@ -142,6 +154,104 @@ app.get("/post/:id" , async (req , res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 })
+
+const SPORTMONKS_KEY = "0BCKMFGbGzkbOXzggB76vKcbW11zrpFIhuV9W1QzHgHliofDpIUdXHtVR44c";
+const SPORTMONKS_BASE = "https://cricket.sportmonks.com/api/v2.0";
+
+// Simple in-memory cache
+const teamCache = {};
+
+async function getTeamDetails(teamId) {
+  if (teamCache[teamId]) {
+    return teamCache[teamId];
+  }
+
+  try {
+    const res = await axios.get(`${SPORTMONKS_BASE}/teams/${teamId}`, {
+      params: { api_token: SPORTMONKS_KEY },
+    });
+    const team = res.data.data;
+    const teamData = {
+      id: team.id,
+      name: team.name,
+      logo: team.image_path,
+    };
+    teamCache[teamId] = teamData; // Cache it
+    return teamData;
+  } catch (err) {
+    console.error(`Error fetching team ${teamId}:`, err.message);
+    return { id: teamId, name: `Team ${teamId}`, logo: "" };
+  }
+}
+
+app.get("/api/cricket", async (req, res) => {
+  try {
+    // Step 1: Get fixtures
+    const fixtureRes = await axios.get(`${SPORTMONKS_BASE}/fixtures`, {
+      params: { api_token: SPORTMONKS_KEY, page: 1 },
+    });
+    const fixtures = fixtureRes.data.data;
+
+    // Step 2: Enrich with team names/logos
+    const enrichedFixtures = await Promise.all(
+      fixtures.map(async (match) => {
+        const localteam = await getTeamDetails(match.localteam_id);
+        const visitorteam = await getTeamDetails(match.visitorteam_id);
+
+        return {
+          ...match,
+          localteam,
+          visitorteam,
+        };
+      })
+    );
+
+    res.json(enrichedFixtures);
+  } catch (error) {
+    console.error("Error fetching from Sportmonks:", error.message);
+    res.status(500).json({
+      error: "Error fetching data from Sportmonks",
+      details: error.message,
+    });
+  }
+});
+
+// app.get("/api/cricket", async (req, res) => {
+//   try {
+//     const response = await axios.get("https://cricket.sportmonks.com/api/v2.0/fixtures", {
+//       params: {
+//         api_token: "0BCKMFGbGzkbOXzggB76vKcbW11zrpFIhuV9W1QzHgHliofDpIUdXHtVR44c",
+//         page: 1,
+//       }
+//     });
+
+//     res.json(response.data);
+//   } catch (error) {
+//     console.error("Error fetching from Sportmonks:", error.response?.data || error.message);
+//     res.status(500).json({
+//       error: "Error fetching data from Sportmonks",
+//       details: error.response?.data || error.message,
+//     });
+//   }
+// });
+
+// app.get("/api/cricket", async (req, res) => {
+//   try {
+//     const response = await axios.get("https://cricket.sportmonks.com/api/v2.0/fixtures", {
+//       params: {
+//         api_token: "0BCKMFGbGzkbOXzggB76vKcbW11zrpFIhuV9W1QzHgHliofDpIUdXHtVR44c",
+//         page: 1,
+//       }
+//     });
+
+//     res.json(response.data);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Failed to fetch cricket data" });
+//   }
+// });
+
+
 
 app.listen(port , () => {
     console.log("listening on port " + port);

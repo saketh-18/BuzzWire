@@ -1,66 +1,67 @@
-import React, { useEffect } from 'react';
-
-
+import React, { useEffect, useState } from "react";
 
 export default function Post() {
+  const [posts, setPosts] = useState([]);
 
+  useEffect(() => {
+    const fetchGuardianPosts = async () => {
+      try {
+        const res = await fetch(
+          `https://content.guardianapis.com/search?api-key=0c41d3be-6eb5-445f-b8b8-2514ca3c7639&order-by=newest&show-fields=thumbnail,trailText&page-size=6`
+        );
+        const data = await res.json();
+        if (data.response.results) {
+          setPosts(data.response.results);
+        }
+      } catch (err) {
+        console.error("Error fetching Guardian posts:", err);
+      }
+    };
+    fetchGuardianPosts();
+  }, []);
 
   return (
-    <div className='flex flex-col w-full mt-10 sm:flex-row '>
-        <div className='flex justify-center article sm:w-1/4 sm:p-4 sm:flex-col-reverse'>
-        <div className='text-section flex flex-col'>
-            <div className='heading text-xl font-bold text-slate-950'>
-                <h1 className='text-xl font-bold text-slate-950'>Heading of the post in bold font,underlined  </h1>
-                <p className='font-thin text-base'>Summary of the post in thin font slighlty greyish colour</p>
-            </div>
-            <div>
-                <p className='author-name text-gray-400'>author name in grey colour in thin font</p>
-                <p> type of article and  | date</p>
-            </div>
-        </div> 
-        <img src='https://media.nature.com/lw767/magazine-assets/d41586-024-00535-5/d41586-024-00535-5_26758800.jpg?as=webp' className='w-60 h-25 ml-3 mr-4 sm:ml-0 sm:w-72 sm:h-36'></img>
-        
+    <div className="w-full mt-10 px-5">
+      <h2 className="text-2xl font-semibold underline mb-6">
+        Latest News from The Guardian {">"}
+      </h2>
+
+      {posts.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.map((post, idx) => (
+            <a
+              key={idx}
+              href={post.webUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden flex flex-col"
+            >
+              <img
+                src={
+                  post.fields?.thumbnail ||
+                  "https://via.placeholder.com/300x200?text=No+Image"
+                }
+                alt={post.webTitle}
+                className="w-full h-40 object-cover"
+              />
+              <div className="p-4 flex flex-col flex-grow">
+                <p className="font-bold underline text-lg">{post.webTitle}</p>
+                <p
+                  className="text-gray-600 mt-1 flex-grow"
+                  dangerouslySetInnerHTML={{
+                    __html: post.fields?.trailText || "No summary available.",
+                  }}
+                />
+                <div className="text-gray-400 text-sm mt-2">
+                  {new Date(post.webPublicationDate).toLocaleDateString()}
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p className="text-gray-500">Loading Guardian news...</p>
+      )}
     </div>
-    {/* article - complete */}
-    <div className='flex justify-center article sm:w-1/4 sm:p-4 sm:flex-col-reverse'>
-        <div className='text-section flex flex-col'>
-            <div className='heading text-xl font-bold text-slate-950'>
-                <h1 className='text-xl font-bold text-slate-950'>Heading of the post in bold font,underlined  </h1>
-                <p className='font-thin text-base'>Summary of the post in thin font slighlty greyish colour</p>
-            </div>
-            <div>
-                <p className='author-name text-gray-400'>author name in grey colour in thin font</p>
-                <p> type of article and  | date</p>
-            </div>
-        </div> 
-        <img src='https://media.nature.com/lw767/magazine-assets/d41586-024-00535-5/d41586-024-00535-5_26758800.jpg?as=webp' className='w-60 h-25 ml-3  mr-4 sm:ml-0 sm:w-72 sm:h-36'></img>
-    </div>
-    <div className='flex justify-center article sm:w-1/4 sm:p-4 sm:flex-col-reverse'>
-        <div className='text-section flex flex-col'>
-            <div className='heading text-xl font-bold text-slate-950'>
-                <h1 className='text-xl font-bold text-slate-950'>Heading of the post in bold font,underlined  </h1>
-                <p className='font-thin text-base'>Summary of the post in thin font slighlty greyish colour</p>
-            </div>
-            <div>
-                <p className='author-name text-gray-400'>author name in grey colour in thin font</p>
-                <p> type of article and  | date</p>
-            </div>
-        </div> 
-        <img src='https://media.nature.com/lw767/magazine-assets/d41586-024-00535-5/d41586-024-00535-5_26758800.jpg?as=webp' className='w-60 h-25 ml-3 mr-4 sm:ml-0 sm:w-72 sm:h-36'></img>
-    </div>
-    <div className='flex justify-center article sm:w-1/4 sm:p-4 sm:flex-col-reverse'>
-        <div className='text-section flex flex-col'>
-            <div className='heading text-xl font-bold text-slate-950'>
-                <h1 className='text-xl font-bold text-slate-950'>Heading of the post in bold font,underlined  </h1>
-                <p className='font-thin text-base'>Summary of the post in thin font slighlty greyish colour</p>
-            </div>
-            <div>
-                <p className='author-name text-gray-400'>author name in grey colour in thin font</p>
-                <p> type of article and  | date</p>
-            </div>
-        </div> 
-        <img src='https://media.nature.com/lw767/magazine-assets/d41586-024-00535-5/d41586-024-00535-5_26758800.jpg?as=webp' className='w-60 h-25 mr-4 ml-3 sm:ml-0 sm:w-72 sm:h-36'></img>
-    </div>
-    </div>
-    )
+  );
 }

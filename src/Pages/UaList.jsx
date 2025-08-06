@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../Header';
+import Header from '../components/Header'
 import { Link , useNavigate} from 'react-router-dom';
 
 export default function UaList() {

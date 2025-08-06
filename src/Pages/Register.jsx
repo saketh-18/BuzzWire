@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import Header from '../Header';
+import Header from '../components/Header';
 import axios from 'axios';
 
 
-export default function Login() {
+export default function Register() {
     const [username , setUsername] = useState('');
     const [password , setPassword] = useState('');
 

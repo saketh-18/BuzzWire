@@ -1,13 +1,13 @@
 import React from 'react'
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import HomePage from './components/HomePage.jsx';
-import Login from './components/Routes/Login.jsx';
-import Register from './components/Routes/Register.jsx';
 import UserContextProvider from './components/UserContext.jsx';
-import CreatePost from './components/CreatePost.jsx';
-import UaList from './components/Routes/UaList.jsx';
-import SinglePost from './components/Routes/SinglePost.jsx';
+import HomePage from './Pages/HomePage.jsx';
+import Login from './Pages/Register.jsx';
+import UaList from './Pages/UaList.jsx';
+import SinglePost from './Pages/SinglePost.jsx';
+import Register from './Pages/Register.jsx';
+import PostPage from './Pages/PostPage.jsx';
 
 function App() {
   return (
@@ -16,11 +16,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element = {<HomePage />} />
-          <Route path='/login' element = {<Login />} />
+          <Route path='/login' element = {<Login/>} />
           <Route path='/register' element = {<Register />} />
-          <Route path='/createPost' element = {<CreatePost />} />
-          <Route path='/UaList' element = {<UaList />} />
-          <Route path='/post/:id' element = { <SinglePost />}/>
+          <Route path='/createPost' element = {<PostPage/>} />
+          <Route path='/UaList' element = {<UaList/>} />
+          <Route path='/post/:id' element = { <SinglePost/>}/>
         </Routes>
       </BrowserRouter>
       </UserContextProvider>
